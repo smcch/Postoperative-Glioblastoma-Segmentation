@@ -159,11 +159,22 @@ for subject_id in os.listdir(path_dicom):
         run_nnunet_predict(nnunet_input_folder, nnunet_output_folder)
         print(f"nnUNet prediction completed for: {nnunet_input_folder}")
 
-        # Move segmentation results and perform cleanup
-        for file in os.listdir(nnunet_output_folder):
-            src_file = os.path.join(nnunet_output_folder, file)
+        # Ensure all files are written and close any handles if necessary
+        import time
+
+        time.sleep(2)  # Wait for 2 seconds to ensure all file handles are closed
+
+        # Move segmentation results and perform cleanup.
+        segmentation_files = glob.glob(os.path.join(nnunet_output_folder, '*.nii.gz'))
+        if len(segmentation_files) == 1:
+            src_file = segmentation_files[0]
             dst_file = os.path.join(output_path, "segmentation.nii.gz")
+            if os.path.exists(dst_file):
+                os.remove(dst_file)  # Remove existing file if it exists
             shutil.move(src_file, dst_file)
+            print(f"Moved segmentation file to {dst_file}")
+        else:
+            print("Error: No segmentation file found or multiple files detected")
 
         # Cleanup of temporary files
         shutil.rmtree(nnunet_input_folder)
