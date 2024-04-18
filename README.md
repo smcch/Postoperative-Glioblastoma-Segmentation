@@ -6,6 +6,7 @@ Postoperative glioblastoma segmentation: Development of a fully automated pipeli
 
 **Ground truth segmentation**
 ![animated_ground_truth](https://github.com/smcch/Postoperative-Glioblastoma-Segmentation/assets/87584415/282185d7-9a47-4fd0-bd31-ab54c287b527)
+
 **RH-GlioSeg-nnU-Net segmentation**
 ![animated_prediction](https://github.com/smcch/Postoperative-Glioblastoma-Segmentation/assets/87584415/0e7cb352-784c-4a5c-8b53-0e18886ce6f6)
 
