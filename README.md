@@ -1,10 +1,13 @@
-# Postoperative glioblastoma segmentation
+# Río Hortega Glioblastoma segmentation model - RH-GlioSeg-nnU-Net
 This repository contains the Python implementation of the paper: 
 >Cepeda S, Romero-Oraá R, García-Pérez D, Blasco G, Luppino LT, Kuttner S, Arrese I, Solheim O, Eikenes L, Karlberg A, Pérez-Núñez A, Escudero T, Hornero R, Sarabia R.
 Postoperative glioblastoma segmentation: Development of a fully automated pipeline using deep convolutional neural networks and comparison with currently available models. Pre-print arXiv
 
 
-![animated_segmentation_gt](https://github.com/smcch/Postoperative-Glioblastoma-Segmentation/assets/87584415/af138ee5-6f55-4029-93ef-1d9c9c174216) ![animated_segmentation_rhuh](https://github.com/smcch/Postoperative-Glioblastoma-Segmentation/assets/87584415/dd48e355-0919-4be3-b141-9f192c2c2cec)
+# Ground truth segmentation
+![animated_ground_truth](https://github.com/smcch/Postoperative-Glioblastoma-Segmentation/assets/87584415/282185d7-9a47-4fd0-bd31-ab54c287b527)
+# RH-GlioSeg-nnU-Net segmentation
+![animated_prediction](https://github.com/smcch/Postoperative-Glioblastoma-Segmentation/assets/87584415/0e7cb352-784c-4a5c-8b53-0e18886ce6f6)
 
 
 This work presents a **fully automated pipeline** that incorporates the processing of multiparametric magnetic resonance imaging (MRI) and the automatic segmentation of **tumor subregions and surgical cavity in postoperative scans**. It includes the following stages:
@@ -31,7 +34,7 @@ The pipeline accepts DICOM images (*.DCM) grouped as follows:
 INPUT_FOLDER
 ├── Subject_1
 │   ├── TimePoint_1
-│   │   ├── dwi
+│   │   ├── dwi/adc (optional)
 │   │   │   ├── *.DCM
 │   │   │   ├── *.DCM
 │   │   │   ├── ...
@@ -52,7 +55,7 @@ INPUT_FOLDER
 ```
 The input folder must be organized with a separate folder for each subject, named with an ID number. Within each subject folder, there should be a folder for each time point, also named with a number. As per convention, '0' denotes the preoperative scan, '1' represents the early postoperative scan, and subsequent numbers correspond to follow-up scans.
 
-Within each time point folder, there should be four specific folders: flair, t1, t1ce, and t2, each containing a set of DICOM files. 
+Within each time point folder, there should be four specific folders: *flair*, *t1*, *t1ce*, and *t2*, each containing a set of DICOM files. 
 
 The user has the flexibility to either provide *dwi* DICOM files, allowing the pipeline to calculate ADC maps and integrate them into processing alongside other sequences, or directly supply DICOM files with ADC already calculated.
 
@@ -72,7 +75,7 @@ If you find this pipeline useful for your academic purposes, please include the 
 	- Li X, Morgan PS, Ashburner J, Smith J, Rorden C. The first step for neuroimaging data analysis: DICOM to NIfTI conversion. J Neurosci Methods. 2016;264:47-56. doi:10.1016/j.jneumeth.2016.03.001.
 - REGISTRATION: `SimpleElastix`: A user-friendly, multi-lingual library for medical image registration, available at https://simpleelastix.github.io/
 	- Marstal K, Berendsen F, Staring M, Klein S. SimpleElastix: A user-friendly, multi-lingual library for medical image registration. Computer Methods and Programs in Biomedicine. 2018;154:103-119. doi:10.1016/j.cmpb.2017.11.010.
- - SKULL STRIPPING: `SynthStrip`: A tool for brain MRI skull stripping and synthetic MRI generation, available at [link_to_synthstrip](https://synthstrip.github.io/)
+ - SKULL STRIPPING: `SynthStrip`: A tool for brain MRI skull stripping and synthetic MRI generation, available at [link_to_synthstrip](https://surfer.nmr.mgh.harvard.edu/docs/synthstrip/)
 	- Engwer C, Schwaiger BJ, Maaß A, Würfl T, Langkammer C, Haynor DR, Schölkopf B, Golland P, Menze BH, Ronneberger O. SynthStrip: A tool for brain MRI skull stripping and synthetic MRI generation. Medical Image Analysis. 2021;71:102091. doi:10.1016/j.media.2021.102091.
 - SEGMENTATION: `nnUNet`: A framework for automated segmentation of medical image data, available at [link_to_nnUNet](https://github.com/MIC-DKFZ/nnUNet)
 	- Isensee F, Jaeger PF, Kohl SAA, Petersen J, Maier-Hein KH. nnU-Net: Breaking the Spell on Successful Medical Image Segmentation. arXiv:1809.10486. 2018.
