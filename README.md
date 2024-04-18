@@ -3,7 +3,9 @@ This repository contains the Python implementation of the paper:
 >Cepeda S, Romero-Oraá R, García-Pérez D, Blasco G, Luppino LT, Kuttner S, Arrese I, Solheim O, Eikenes L, Karlberg A, Pérez-Núñez A, Escudero T, Hornero R, Sarabia R.
 Postoperative glioblastoma segmentation. Development of a fully automated pipeline and comparison with currently available models.
 
-![Example of a segmentation result](example.jpg)
+
+![animated_segmentation_gt](https://github.com/smcch/Postoperative-Glioblastoma-Segmentation/assets/87584415/af138ee5-6f55-4029-93ef-1d9c9c174216) ![animated_segmentation_rhuh](https://github.com/smcch/Postoperative-Glioblastoma-Segmentation/assets/87584415/dd48e355-0919-4be3-b141-9f192c2c2cec)
+
 
 This work presents a **fully automated pipeline** that incorporates the processing of multiparametric magnetic resonance imaging (MRI) and the automatic segmentation of **tumor subregions in postoperative scans**. It includes the following stages:
 - DICOM to NifTI conversion
