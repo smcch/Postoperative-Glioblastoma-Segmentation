@@ -1,12 +1,12 @@
-# Río Hortega Glioblastoma segmentation model - RH-GlioSeg-nnU-Net
+# Río Hortega Glioblastoma Segmentation - *RH-GlioSeg-nnU-Net*
 This repository contains the Python implementation of the paper: 
 >Cepeda S, Romero-Oraá R, García-Pérez D, Blasco G, Luppino LT, Kuttner S, Arrese I, Solheim O, Eikenes L, Karlberg A, Pérez-Núñez A, Escudero T, Hornero R, Sarabia R.
 Postoperative glioblastoma segmentation: Development of a fully automated pipeline using deep convolutional neural networks and comparison with currently available models. Pre-print arXiv
 
 
-# Ground truth segmentation
+**Ground truth segmentation**
 ![animated_ground_truth](https://github.com/smcch/Postoperative-Glioblastoma-Segmentation/assets/87584415/282185d7-9a47-4fd0-bd31-ab54c287b527)
-# RH-GlioSeg-nnU-Net segmentation
+**RH-GlioSeg-nnU-Net segmentation**
 ![animated_prediction](https://github.com/smcch/Postoperative-Glioblastoma-Segmentation/assets/87584415/0e7cb352-784c-4a5c-8b53-0e18886ce6f6)
 
 
