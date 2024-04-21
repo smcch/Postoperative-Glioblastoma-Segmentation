@@ -1,4 +1,4 @@
-# Río Hortega Glioblastoma Segmentation - *RH-GlioSeg-nnU-Net*
+# Río Hortega Glioblastoma Segmentation - *RH-GlioSeg-nnUNet*
 This repository contains the Python implementation of the paper: 
 >Cepeda S, Romero-Oraá R, García-Pérez D, Blasco G, Luppino LT, Kuttner S, Arrese I, Solheim O, Eikenes L, Karlberg A, Pérez-Núñez A, Escudero T, Hornero R, Sarabia R.
 Postoperative glioblastoma segmentation: Development of a fully automated pipeline using deep convolutional neural networks and comparison with currently available models. Pre-print at arXiv  	[arXiv:2404.11725](https://arxiv.org/abs/2404.11725) https://arxiv.org/abs/2404.11725
