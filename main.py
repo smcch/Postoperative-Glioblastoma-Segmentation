@@ -22,17 +22,22 @@ import glob
 import shutil
 import argparse
 import dcm2niix
+import subprocess
+import nibabel as nib
+import time
 
 import utils
-import computeADC
-import mri_synthstrip
-import simpleElastix
-from rhuh_nnunet_predict import run_nnunet_predict
+import adc
+import skull_stripping
+import registration
+import segmentation
+
 
 # Parse command line arguments
 parser = argparse.ArgumentParser(description="Processing DICOM images and segmentation of tumor subregions")
 parser.add_argument("-i", "--input", required=True, help="Input directory with the DICOM files.")
 parser.add_argument("-o", "--output", required=True, help="Output directory for processing results.")
+parser.add_argument("-s", "--separate_segmentation", action='store_true', help="Output the segmentation layers in different files.")
 args = parser.parse_args()
 
 # Obtain the path to the directory where main.py is located
@@ -50,41 +55,52 @@ for subject_id in os.listdir(path_dicom):
     subject_path = os.path.join(path_dicom, subject_id)
     if not os.path.isdir(subject_path):
         continue
-
+    print(f"[Subject {subject_id}]")
+    start = time.time()
     # Get time points from subfolders
     time_points = [d for d in os.listdir(subject_path) if os.path.isdir(os.path.join(subject_path, d))]
 
     # Iterate time points
     for time_point in time_points:
+        print(f"[Time point {time_point}]")
         time_point_path = os.path.join(subject_path, time_point)
         output_path = os.path.join(path_nifti, subject_id, time_point)
         if not os.path.exists(output_path):
             os.makedirs(output_path)
 
         # Compute 'dwi' or 'adc'.
+
         for seq in ['dwi', 'adc']:
             seq_path = os.path.join(time_point_path, seq)
             if os.path.exists(seq_path):
-                os.system(f"{dcm2niix.bin} -z y -m n -b n -o {output_path} -f {seq} {seq_path}")
+                # os.system(f"{dcm2niix.bin} -z y -m n -b n -v n -o {output_path} -f {seq} {seq_path}")
+                subprocess.run(f"{dcm2niix.bin} -z y -m n -b n -v n -o {output_path} -f {seq} {seq_path}", capture_output=True)
 
                 if seq == 'dwi':
                     # Compute 'adc' fom 'dwi'
-                    computeADC.run(
+                    print("Computing ADC from DWI... ", end='')
+                    adc.run(
                         dwiPath=os.path.join(output_path, 'dwi.nii.gz'),
                         bvalPath=os.path.join(output_path, 'dwi.bval'),
                         adcPath=os.path.join(output_path, 'adc.nii.gz')
                     )
+                    print(f"✓")
                 break
 
         # Process other anatomical MR sequences
+        print("Converting DICOM to NIFTI... ", end='')
         for mri_seq in ['flair', 't1', 't1ce', 't2']:
             seq_path = os.path.join(time_point_path, mri_seq)
             if os.path.exists(seq_path):
-                os.system(f"{dcm2niix.bin} -z y -m n -b n -o {output_path} -f {mri_seq} {seq_path}")
+                # os.system(f"{dcm2niix.bin} -z y -m n -b n -v n -o {output_path} -f {mri_seq} {seq_path}")
+                subprocess.run(f"{dcm2niix.bin} -z y -m n -b n -v n -o {output_path} -f {mri_seq} {seq_path}",
+                               capture_output=True)
+        print(f"✓")
 
         # Verify and correct filenames
         utils.remove_unwanted_suffixes(output_path)
 
+        print("Registration, skull stripping, and intensity normalization... ", end='')
         # Registration, skull stripping, and intensity normalization for all sequences except 'adc'
         sequences_to_process = ['t1ce', 't1', 't2', 'flair']
         for mri_seq in sequences_to_process:
@@ -93,11 +109,11 @@ for subject_id in os.listdir(path_dicom):
                 # Registration
                 reference_image = atlas_image if mri_seq == 't1ce' else os.path.join(output_path, 't1ce_reg.nii.gz')
                 out_file = os.path.join(output_path, f"{mri_seq}_reg.nii.gz")
-                simpleElastix.run(in_file=in_file, reference=reference_image, out_file=out_file)
+                registration.run(in_file=in_file, reference=reference_image, out_file=out_file)
 
                 # Skull stripping
                 skull_stripped_file = os.path.join(output_path, f"{mri_seq}_reg_sk.nii.gz")
-                mri_synthstrip.run(
+                skull_stripping.run(
                     image=out_file,
                     out=skull_stripped_file,
                     mask=os.path.join(output_path, f"{mri_seq}_mask.nii.gz"),
@@ -115,7 +131,7 @@ for subject_id in os.listdir(path_dicom):
         if os.path.exists(os.path.join(output_path, 'adc.nii.gz')):
             # Skull Stripping for adc
             adc_skull_stripped_file = os.path.join(output_path, 'adc_sk.nii.gz')
-            mri_synthstrip.run(
+            skull_stripping.run(
                 image=os.path.join(output_path, 'adc.nii.gz'),
                 out=adc_skull_stripped_file,
                 mask=os.path.join(output_path, 'adc_mask.nii.gz'),
@@ -124,7 +140,7 @@ for subject_id in os.listdir(path_dicom):
 
             # Registration for adc (using t1ce_reg_sk.nii.gz)
             adc_registered_file = os.path.join(output_path, 'adc_reg.nii.gz')
-            simpleElastix.run(
+            registration.run(
                 in_file=adc_skull_stripped_file,
                 reference=os.path.join(output_path, 't1ce_reg_sk.nii.gz'),
                 out_file=adc_registered_file
@@ -136,6 +152,10 @@ for subject_id in os.listdir(path_dicom):
                 image_path=adc_registered_file,
                 output_path=adc_normalized_file
             )
+        print("✓")
+
+        # Segmentation
+        print("Segmentation... ", end='')
         # Prepare folders for nnU-Net
         nnunet_input_folder = os.path.join(path_nifti, subject_id, time_point, "nnUNet_input")
         os.makedirs(nnunet_input_folder, exist_ok=True)
@@ -156,12 +176,11 @@ for subject_id in os.listdir(path_dicom):
                 shutil.copy(original_path, renamed_path)
 
         # Execute nnU-Net predict
-        run_nnunet_predict(nnunet_input_folder, nnunet_output_folder)
-        print(f"nnUNet prediction completed for: {nnunet_input_folder}")
+        segmentation.run(nnunet_input_folder, nnunet_output_folder)
+        # print(f"nnUNet prediction completed for: {nnunet_input_folder}")
+        print("✓")
 
         # Ensure all files are written and close any handles if necessary
-        import time
-
         time.sleep(2)  # Wait for 2 seconds to ensure all file handles are closed
 
         # Move segmentation results and perform cleanup.
@@ -172,7 +191,18 @@ for subject_id in os.listdir(path_dicom):
             if os.path.exists(dst_file):
                 os.remove(dst_file)  # Remove existing file if it exists
             shutil.move(src_file, dst_file)
-            print(f"Moved segmentation file to {dst_file}")
+            print(f"Saved segmentation file to {dst_file}")
+
+            if args.separate_segmentation:
+                segmentation = nib.load(dst_file)
+                segmentation_data = segmentation.get_fdata()
+                labels = {1: 'tumor', 2: 'peritumor', 3: 'cavity'}
+                for i in labels:
+                    data = (segmentation_data == i).astype(int)
+                    segmentation_img = nib.Nifti1Image(data, segmentation.affine)
+                    dst_file = os.path.join(output_path, labels[i] + ".nii.gz")
+                    nib.save(segmentation_img, dst_file)
+                    print(f"Saved {labels[i]} segmentation file to {dst_file}")
         else:
             print("Error: No segmentation file found or multiple files detected")
 
@@ -200,6 +230,9 @@ for subject_id in os.listdir(path_dicom):
             os.path.join(output_path, 't2.nii.gz'),
             os.path.join(output_path, 'flair.nii.gz'),
             os.path.join(output_path, 'segmentation.nii.gz'),
+            os.path.join(output_path, 'tumor.nii.gz'),
+            os.path.join(output_path, 'peritumor.nii.gz'),
+            os.path.join(output_path, 'cavity.nii.gz'),
         ]
 
         # adc.nii.gz is optional, verify its existence before adding it to the list
@@ -215,4 +248,6 @@ for subject_id in os.listdir(path_dicom):
 
         print(f"Final clean-up and file renaming completed for subject {subject_id}, time point {time_point}.")
 
+    end = time.time()
+    print(time.strftime('Subject processing time: %H:%M:%S', time.gmtime(end - start)))
 print("All processing completed.")

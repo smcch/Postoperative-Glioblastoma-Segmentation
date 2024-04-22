@@ -31,6 +31,7 @@ class Application(tk.Frame):
         self.master = master
         self.input_dir = None
         self.output_dir = None
+        self.separate_segmentation = tk.BooleanVar(self)
         self.pack()
         self.create_widgets()
 
@@ -55,6 +56,11 @@ class Application(tk.Frame):
         self.output_dir_button["text"] = "Choose Directory"
         self.output_dir_button["command"] = self.get_output_directory
         self.output_dir_button.pack()
+
+        self.separate_segmentation_checkbox = tk.Checkbutton(self)
+        self.separate_segmentation_checkbox["text"] = "Separate segmentation layers in different files"
+        self.separate_segmentation_checkbox["variable"] = self.separate_segmentation
+        self.separate_segmentation_checkbox.pack()
 
         self.start_button = tk.Button(self)
         self.start_button["text"] = "Start"
@@ -84,6 +90,8 @@ class Application(tk.Frame):
 
         # Use sys.executable to ensure the same Python interpreter
         command = [sys.executable, 'main.py', '-i', self.input_dir, '-o', self.output_dir]
+        if self.separate_segmentation.get():
+            command.append('-s')
         thread = threading.Thread(target=self.run_command, args=(command,))
         thread.start()
 

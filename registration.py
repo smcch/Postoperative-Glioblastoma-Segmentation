@@ -7,7 +7,9 @@ class run():
         defaultKwargs = {}
         args = SimpleNamespace(**{**defaultKwargs, **kwargs})
 
+
         elastixImageFilter = sitk.ElastixImageFilter()
+        elastixImageFilter.SetLogToConsole(False)
         elastixImageFilter.SetFixedImage(sitk.ReadImage(args.reference))
         elastixImageFilter.SetMovingImage(sitk.ReadImage(args.in_file))
 

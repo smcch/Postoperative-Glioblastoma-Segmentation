@@ -33,7 +33,7 @@ import surfa as sf
 
 class run():
     def __init__(self, **kwargs):
-        defaultKwargs = {'gpu': False, 'no_csf': False, 'border': False, 'model': None }
+        defaultKwargs = {'gpu': True, 'no_csf': False, 'border': False, 'model': None}
         args = SimpleNamespace(**{**defaultKwargs, **kwargs})
 
         # sanity check on the inputs
@@ -55,7 +55,7 @@ class run():
             device_name = 'CPU'
 
         # configure model
-        print(f'Configuring model on the {device_name}')
+        # print(f'Configuring model on the {device_name}')
 
         with torch.no_grad():
             model = StripModel()
@@ -65,15 +65,15 @@ class run():
         # load model weights
         if args.model is not None:
             modelfile = args.model
-            print('Using custom model weights')
+            # print('Using custom model weights')
         else:
             version = '1'
-            print(f'Running SynthStrip model version {version}')
+            # print(f'Running SynthStrip model version {version}')
             fshome = args.modelPath
             if fshome is None:
                 sf.system.fatal('FREESURFER_HOME env variable must be set! Make sure FreeSurfer is properly sourced.')
             if args.no_csf:
-                print('Excluding CSF from brain boundary')
+                # print('Excluding CSF from brain boundary')
                 modelfile = os.path.join(fshome, f'synthstrip.nocsf.{version}.pt')
             else:
                 modelfile = os.path.join(fshome, f'synthstrip.{version}.pt')
@@ -82,13 +82,13 @@ class run():
 
         # load input volume
         image = sf.load_volume(args.image)
-        print(f'Input image read from: {args.image}')
+        # print(f'Input image read from: {args.image}')
 
         # loop over frames (try not to keep too much data in memory)
-        print(f'Processing frame (of {image.nframes}):', end=' ', flush=True)
+        # print(f'Processing frame (of {image.nframes}):', end=' ', flush=True)
         mask = []
         for f in range(image.nframes):
-            print(f + 1, end=' ', flush=True)
+            # print(f + 1, end=' ', flush=True)
             frame = image.new(image.framed_data[..., f])
 
             ######## FIX ########
@@ -112,7 +112,7 @@ class run():
 
             max_dist = sdt.max().astype(int)
             if args.border >= max_dist:
-                print(f'specified border {args.border} greater than max dtrans {max_dist} - computing sdt')
+                # print(f'specified border {args.border} greater than max dtrans {max_dist} - computing sdt')
                 dif = args.border - (max_dist - 1)
                 mask1 = (sdt >= (max_dist - 1))  # region that original sdt has real distances
                 dtrans = scipy.ndimage.morphology.distance_transform_edt(mask1) + (max_dist - 2)
@@ -130,20 +130,20 @@ class run():
 
         # combine frames and end line
         mask = sf.stack(mask)
-        print('done')
+        # print('done')
 
         # write the masked output
         if args.out:
             image[mask == 0] = np.min([0, image.min()])
             image.save(args.out)
-            print(f'Masked image saved to: {args.out}')
+            # print(f'Masked image saved to: {args.out}')
 
         # write the brain mask
         if args.mask:
             image.new(mask).save(args.mask)
-            print(f'Binary brain mask saved to: {args.mask}')
+            # print(f'Binary brain mask saved to: {args.mask}')
 
-        print(ref)
+        # print(ref)
 
 class StripModel(nn.Module):
 

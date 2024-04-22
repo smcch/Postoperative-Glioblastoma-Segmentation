@@ -13,7 +13,7 @@ def configure_environment():
     os.environ['nnUNet_preprocessed'] = nnUNet_preprocessed
     os.environ['nnUNet_results'] = nnUNet_results
 
-def run_nnunet_predict(input_folder, output_folder):
+def run(input_folder, output_folder):
     configure_environment()
     env = os.environ.copy()
     env['CUDA_VISIBLE_DEVICES'] = '0'
@@ -26,7 +26,7 @@ def run_nnunet_predict(input_folder, output_folder):
         '-tr', 'nnUNetTrainer',
         '-c', '3d_fullres',
         '-p', 'nnUNetPlans'
-    ], env=env)
+    ], env=env, capture_output=True)
 
 if __name__ == "__main__":
     import argparse
@@ -36,6 +36,6 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    run_nnunet_predict(args.input_folder, args.output_folder)
+    run(args.input_folder, args.output_folder)
 
 
