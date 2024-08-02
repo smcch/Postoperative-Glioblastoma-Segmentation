@@ -196,8 +196,8 @@ for subject_id in os.listdir(path_dicom):
             if args.separate_segmentation:
                 segmentation_file_path = os.path.join(output_path, "segmentation.nii.gz")
                 if os.path.exists(segmentation_file_path):
-                    segmentation = nib.load(segmentation_file_path)
-                    segmentation_data = segmentation.get_fdata()
+                    segmentations = nib.load(segmentation_file_path)
+                    segmentation_data = segmentations.get_fdata()
 
                     # Determine handling based on the time point
                     if time_point == '0' or int(time_point) > 1:
@@ -205,11 +205,11 @@ for subject_id in os.listdir(path_dicom):
                         merge_labels = (segmentation_data == 1) | (segmentation_data == 3)
                         peritumor_data = (segmentation_data == 2).astype(int)
                         necrosis_data = (segmentation_data == 3).astype(int)
-                        nib.save(nib.Nifti1Image(merge_labels.astype(int), segmentation.affine),
+                        nib.save(nib.Nifti1Image(merge_labels.astype(int), segmentations.affine),
                                  os.path.join(output_path, 'tumor.nii.gz'))
-                        nib.save(nib.Nifti1Image(peritumor_data, segmentation.affine),
+                        nib.save(nib.Nifti1Image(peritumor_data, segmentations.affine),
                                  os.path.join(output_path, 'peritumor.nii.gz'))
-                        nib.save(nib.Nifti1Image(necrosis_data, segmentation.affine),
+                        nib.save(nib.Nifti1Image(necrosis_data, segmentations.affine),
                                  os.path.join(output_path, 'necrosis.nii.gz'))
 
                     elif time_point == '1':
@@ -217,14 +217,14 @@ for subject_id in os.listdir(path_dicom):
                         merge_labels = (segmentation_data == 1) | (segmentation_data == 3)
                         peritumor_data = (segmentation_data == 2).astype(int)
 
-                        nib.save(nib.Nifti1Image(merge_labels.astype(int), segmentation.affine),
+                        nib.save(nib.Nifti1Image(merge_labels.astype(int), segmentations.affine),
                                  os.path.join(output_path, 'cavity.nii.gz'))
-                        nib.save(nib.Nifti1Image(peritumor_data, segmentation.affine),
+                        nib.save(nib.Nifti1Image(peritumor_data, segmentations.affine),
                                  os.path.join(output_path, 'peritumor.nii.gz'))
 
                         if (segmentation_data == 1).any():
                             residual_tumor_data = (segmentation_data == 1).astype(int)
-                            nib.save(nib.Nifti1Image(residual_tumor_data, segmentation.affine),
+                            nib.save(nib.Nifti1Image(residual_tumor_data, segmentations.affine),
                                      os.path.join(output_path, 'residual_tumor.nii.gz'))
                 else:
                     print("Error: No segmentation file found or multiple files detected")
