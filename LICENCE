@@ -1,0 +1,45 @@
+Academic Non Commercial Source Code License Agreement
+
+[c] 2024 UiT – The Arctic University of Norway  (Licensor)
+
+Licensor licenses the software identified below to Licensee (“You”) only upon the condition that you accept all of the terms contained in this license agreement (“license”).  Please read the license terms carefully. By downloading and/or using the software, you accept the terms of the license. 
+
+Software: RH-GlioSeg – version 1.0
+
+1.	DEFINITIONS. 
+"Derivative Works" means any software programs which are developed by Licensee and which are based on, incorporate or contain modifications of any part of Source Code, and including any revision, modification, translation (including compilation or recapitulation by computer), abridgment, condensation, expansion or any other form in which Source Code, may be recast, transformed or adapted. 
+"Licensee" or “You” means the individual, corporation or other legal entity who downloads and/or otherwise installs and uses the Software. 
+"Purpose" means academic non-commercial use only.  Academic non-commercial use is defined as use for academic research or other not-for-profit scholarly purposes, which are undertaken at an educational, non-profit, charitable or governmental institution, and which does not involve and is not intended to lead to the production or manufacture of products for sale, or the enhancement of a product or service in or proposed for commerce, or the performance of services for a fee. The Software may not be used for any commercial purpose or by or for the benefit of any commercial entity, e.g. it may not be included in part or in whole as a part of software to be used for commercial purposes. This restriction prohibits internal productive use, licensing of the Software to third parties (either for payment or for free) and the provision of commercial services of any type which use or are based on the Software. 
+"Software" means the software programs identified herein in binary or source code form, any other machine readable materials (including, but not limited to, libraries, source files, header files, and data files), any updates or error corrections provided by LICENSOR, and any user manuals, APIs, programming guides and other documentation provided to you by LICENSOR under this Agreement. 
+"Source Code" shall include computer programming code or any computer instructions in human readable form that is usual for modifying the Software and necessary to compile it. 
+
+2.	LICENSE. 
+Subject to the terms and conditions of this License, LICENSOR grants to Licensee a worldwide non-exclusive, non-transferable, non-sublicensable, perpetual license, limited to the Purpose, to (a) use and reproduce as many copies of the Source Code as are reasonably necessary only for the exercise of your rights hereunder; and (b) modify the Software and create Derivative Works and use and reproduce them for the Purpose only. 
+
+3.	CONDITIONS. 
+The Software is copyrighted. Unless enforcement is prohibited by applicable law, you may not (a) use or modify the Software for any purpose other than as indicated; (b) cause or permit anyone else to use or modify the Software for any purpose not permitted hereunder; or (c) export, directly, or indirectly, the Software in violation of any applicable export control laws in any jurisdiction. Derivative Works may only be used, licensed or otherwise exploited in compliance with the terms of this License, whose restrictions apply to such Derivative works. The terms of this Agreement do not entitle you to receive any support or maintenance services from LICENSOR with respect to the Software. 
+
+4.	FEEDBACK. 
+We appreciate comments on the software and look forward to any feedback on the results of any software testing and validation, and any comments and suggestions you may have in relation to the Software (“Feedback”). If you provide this to us, LICENSOR may freely use such Feedback for any purpose, including without limitation any further research and development and eventual commercialisation of the Software and any derivative works. 
+
+5.	INTELLECTUAL AND INDUSTRIAL PROPERTY RIGHTS. 
+Title to Software and all associated intellectual and industrial property rights is retained by LICENSOR and/or its licensors. You shall keep intact all authorship, copyright, patent or trademark notices and all notices that refer to the Software and the Licence and to the disclaimer of warranties. This Licence does not grant permission to use the trade names, trademarks, service marks, or names of the LICENSOR, except as required for reasonable and customary use in describing the origin of the Software and reproducing the content of the copyright notice. 
+
+6.	LIMITED WARRANTY AND DISCLAIMER. 
+This Software is a work in progress for non-commercial research only. It is not a finished work and may therefore contain defects or “bugs” inherent to this type of software development. LICENSOR does not guarantee that the Software will perform error-free or uninterrupted. To the maximum extent permitted by obligatorily applicable law, the Software is provided without further warranties of any kind, including without limitation satisfactory quality, merchantability, fitness for a particular purpose, absence of defects or errors, accuracy, or non-infringement of intellectual or industrial property rights. This disclaimer of warranty is an essential part of the Licence and a condition for the grant of any rights to the Software. 
+
+7.	LIMITATION OF LIABILITY.  
+Except in the cases of physical damages directly caused to natural persons, and to the maximum extent permitted by obligatorily applicable law, in no event will LICENSOR or its licensors be liable for any direct or for indirect or consequential damages, however caused, arising out of or related to the use of or inability to use Software; including without limitation, damages for loss of goodwill, work stoppage, computer failure or malfunction, loss of data or any commercial damage and lost revenue or profit, even if the LICENSOR has been advised of the possibility of such damage. The foregoing limitations will apply even if the above stated warranty disclaimer fails of its essential purpose. 
+
+8.	TERMINATION.  
+You may terminate this Agreement at any time by destroying all copies of Software and notifying the LICENSOR. This Agreement will terminate immediately on notice from LICENSOR if you fail to comply with any provision of this Agreement.  Either party may terminate this Agreement immediately should any Software become, or in either party's opinion be likely to become, the subject of a claim of infringement of any intellectual or industrial property right. Upon termination, you must destroy all copies of Software. Provisions that survive termination or expiration include those relating to limitation of liability limitation and others which by their nature are intended to survive and apply to both parties' respective successors and assignees.
+
+9.	GOVERNING LAW / JURISDICTION.  
+Any action related to this Agreement will be governed by the law of the domicile of the Licensor.  No choice of law rules of any jurisdiction will apply. Any action, conflict or dispute resulting from this License and use of the Software will be subject to the exclusive jurisdiction of the courts of the domicile of the Licensor. 
+
+10.	OTHER.
+If any provision of the Licence is invalid or unenforceable under applicable law, this will not affect the validity or enforceability of the Licence as a whole. Such provision will be construed and/or reformed so as necessary to make it valid and enforceable. If this is not possible, the License will terminate. You may not assign this agreement or give or transfer the Software or an interest in it to another individual or entity. Neither party shall be responsible for failure to fulfil any obligation due to causes beyond its control. No right or cause of action for any third party is created by this Agreement, nor is LICENSOR responsible for any third party claims against Licensee. This Agreement is the entire agreement between you and LICENSOR relating to its subject matter. It supersedes all prior or contemporaneous oral or written communications, proposals, representations and warranties and prevails over any conflicting communication between the parties relating to the Software. No modification of this license will be binding, unless in writing and signed by an authorised representative of each party. 
+
+NOTICES: Third Party Code. Additional copyright notices and license terms applicable to portions of the Software are set forth in the THIRDPARTYLICENSEREADME.txt file. 
+
+For inquiries please contact: LICENSOR at the address indicated above
