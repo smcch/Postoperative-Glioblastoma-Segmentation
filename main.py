@@ -128,11 +128,21 @@ for subject_id in os.listdir(path_dicom):
                 )
 
         # Process adc.nii.gz after t1ce_reg_sk.nii.gz
-        if os.path.exists(os.path.join(output_path, 'adc.nii.gz')):
+        adc_file_path = os.path.join(output_path, 'adc.nii.gz')
+        if os.path.exists(adc_file_path):
+            # Limpieza de valores NaN e infinitos en adc.nii.gz
+            print("Limpieza de valores NaN e infinitos en ADC... ", end='')
+            adc_image = nib.load(adc_file_path)
+            adc_data = adc_image.get_fdata()
+            adc_data = np.nan_to_num(adc_data, nan=0.0, posinf=0.0, neginf=0.0)
+            cleaned_adc_image = nib.Nifti1Image(adc_data, adc_image.affine, adc_image.header)
+            nib.save(cleaned_adc_image, adc_file_path)
+            print("✓")
+
             # Skull Stripping for adc
             adc_skull_stripped_file = os.path.join(output_path, 'adc_sk.nii.gz')
             skull_stripping.run(
-                image=os.path.join(output_path, 'adc.nii.gz'),
+                image=adc_file_path,
                 out=adc_skull_stripped_file,
                 mask=os.path.join(output_path, 'adc_mask.nii.gz'),
                 modelPath=os.path.join(dir_path, 'synthstrip_models')
@@ -153,6 +163,7 @@ for subject_id in os.listdir(path_dicom):
                 output_path=adc_normalized_file
             )
         print("✓")
+
 
         # Segmentation
         print("Segmentation... ", end='')
