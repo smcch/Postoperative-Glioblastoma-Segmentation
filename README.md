@@ -27,8 +27,6 @@ pip install -r requirements.txt
 > [!NOTE]
 > You should install PyTorch as described on their [website]([conda/pip](https://pytorch.org/get-started/locally/)) based on your system settings (OS, CUDA version, etc.)
 
-Due to Git file size limitations, the segmentation model must be downloaded from this [link](https://drive.google.com/file/d/17b6sKdyErUhhtcBRD2-oFOk-ORbGvDo1/view) and extrated into the root path (the folder *my_nnunet* must be placed next to the file *main.py*).
-
 ## Data preparation
 The pipeline accepts DICOM images (*.DCM) grouped as follows:
 ```
