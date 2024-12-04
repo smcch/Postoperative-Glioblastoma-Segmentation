@@ -1,8 +1,6 @@
 # Río Hortega Glioblastoma Segmentation - *RH-GlioSeg-nnUNet*
 This repository contains the Python implementation of the paper: 
->Cepeda S, Romero-Oraá R, García-Pérez D, Blasco G, Luppino LT, Kuttner S, Arrese I, Solheim O, Eikenes L, Karlberg A, Pérez-Núñez A, Escudero T, Hornero R, Sarabia R.
-Postoperative glioblastoma segmentation: Development of a fully automated pipeline using deep convolutional neural networks and comparison with currently available models. Pre-print at arXiv  	[arXiv:2404.11725](https://arxiv.org/abs/2404.11725) https://arxiv.org/abs/2404.11725
-
+>Santiago Cepeda, Roberto Romero, Lidia Luque, Daniel García-Pérez, Guillermo Blasco, Luigi Tommaso Luppino, Samuel Kuttner, Olga Esteban-Sinovas, Ignacio Arrese, Ole Solheim, Live Eikenes, Anna Karlberg, Ángel Pérez-Núñez, Olivier Zanier, Carlo Serra, Victor E Staartjes, Andrea Bianconi, Luca Francesco Rossi, Diego Garbossa, Trinidad Escudero, Roberto Hornero, Rosario Sarabia, Deep Learning-Based Postoperative Glioblastoma Segmentation and Extent of Resection Evaluation: Development, External Validation, and Model Comparison, Neuro-Oncology Advances, 2024;, vdae199, https://doi.org/10.1093/noajnl/vdae199
 
 **Ground truth segmentation**
 ![animated_ground_truth](https://github.com/smcch/Postoperative-Glioblastoma-Segmentation/assets/87584415/282185d7-9a47-4fd0-bd31-ab54c287b527)
@@ -26,6 +24,7 @@ pip install -r requirements.txt
 ```
 > [!NOTE]
 > You should install PyTorch as described on their [website]([conda/pip](https://pytorch.org/get-started/locally/)) based on your system settings (OS, CUDA version, etc.)
+> Due to Git file size limitations, the segmentation model must be downloaded from this [link](https://drive.google.com/file/d/17b6sKdyErUhhtcBRD2-oFOk-ORbGvDo1/view) and extrated into the root path (the folder *my_nnunet* must be placed next to the file *main.py*).
 
 ## Data preparation
 The pipeline accepts DICOM images (*.DCM) grouped as follows:
